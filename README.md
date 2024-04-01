@@ -1,1 +1,1 @@
-# chatroom-application
+# Chatroom application made through socket programming
