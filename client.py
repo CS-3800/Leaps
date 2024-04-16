@@ -80,6 +80,22 @@ def restore_default_message(event):
         message_textbox.insert(0, "Type Here...")
         message_textbox.config(fg="gray")  # Change text color for default message
 
+def change_color(color):
+    message_textbox.config(fg=color)
+
+def show_color_options():
+    # Create a Toplevel window for color options
+    color_options_window = tk.Toplevel(root)
+    color_options_window.title("Choose a Color")
+
+    # List of color options
+    colors = ["red", "green", "blue", "yellow", "orange", "purple"]
+
+    # Create buttons for each color option
+    for color in colors:
+        color_button = tk.Button(color_options_window, text=color.capitalize(), command=lambda c=color: change_color(c))
+        color_button.pack()
+
 root = tk.Tk()
 root.geometry("600x600")
 root.title("Messenger Client")
@@ -107,14 +123,17 @@ username_textbox.pack(side=tk.LEFT)
 username_button = tk.Button(top_frame, text="Connect", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=connect)
 username_button.pack(side=tk.LEFT, padx=15)
 
-message_textbox = tk.Entry(bottom_frame, font=FONT, bg=MEDIUM_ORANGE, fg=WHITE, width=35)
+message_textbox = tk.Entry(bottom_frame, font=FONT, bg=MEDIUM_ORANGE, fg=WHITE, width=30)
 message_textbox.insert(0, "Type Here...")
 message_textbox.bind("<FocusIn>", clear_default_message)
 message_textbox.bind("<FocusOut>", restore_default_message)
 message_textbox.pack(side=tk.LEFT, padx=10)
 
 emotes_frame = tk.Button(bottom_frame, text="😊", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=show_emoticons)
-emotes_frame.pack(side=tk.LEFT)
+emotes_frame.pack(side=tk.LEFT, padx=10)
+
+color_frame = tk.Button(bottom_frame, text="Color", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=show_color_options)
+color_frame.pack(side=tk.LEFT)
 
 message_button = tk.Button(bottom_frame, text="Send", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=send_message)
 message_button.pack(side=tk.LEFT, padx=10)
