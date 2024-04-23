@@ -2,6 +2,7 @@
 import socket
 import threading
 
+# Host and port number
 HOST = '127.0.0.1'
 PORT = 1738
 LISTENER_LIMIT = 5
@@ -81,6 +82,6 @@ def main():
 
         threading.Thread(target=client_handler, args=(client, )).start()
 
-
+# Main function
 if __name__ == '__main__':
     main()

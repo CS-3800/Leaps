@@ -1,23 +1,32 @@
-# import required modules
 import socket
 import threading
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox
 
+# Server host and port
 HOST = '127.0.0.1'
 PORT = 1738
 
-DARK_GREEN = '#22dc70'
-MEDIUM_ORANGE = '#f1b50e'
-OCEAN_BLUE = '#06d1fa'
-WHITE = "white"
-FONT = ("Helvetica", 17)
-BUTTON_FONT = ("Lao UI", 15)
-SMALL_FONT = ("Lao UI", 13)
+# Color constants
+DARK_GRAY = '#333333'
+MEDIUM_GRAY = '#666666'
+LIGHT_GRAY = '#999999'
+WHITE = '#FFFFFF'
+BUTTON_GRAY = '#555555'  # Dark gray
+BUTTON_GREEN = '#5CB85C'  # Green
+BUTTON_ORANGE = '#F0AD4E'  # Orange
+BUTTON_BLUE = '#3E92CC'    # Blue
 
+# Font specifications
+FONT = ("Open Sans", 17)
+BUTTON_FONT = ("Open Sans", 15)
+SMALL_FONT = ("Open Sans", 13)
+
+# Socket initialization
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+# Function to show emoticons window
 def show_emoticons():
     # Create a Toplevel window
     emoticons_window = tk.Toplevel(root)
@@ -28,22 +37,22 @@ def show_emoticons():
     emoticons = ["😊", "😂", "😍", "😎", "😜", "😇", "😘", "🥳", "🤩"]
     def add_to_message(emote):
         message_textbox.insert(tk.END, emote)
+    
     # Display the list of emoticons
     for emoticon in emoticons:
-        button = tk.Button(emoticons_window, text=emoticon, font=("Arial", 12), command=lambda e=emoticon: add_to_message(e))
+        button = tk.Button(emoticons_window, text=emoticon, font=("Open Sans", 12), command=lambda e=emoticon: add_to_message(e), bg=BUTTON_GRAY)
         button.pack()
 
-
+# Function to add message to message box
 def add_message(message):
     message_box.config(state=tk.NORMAL)
     message_box.insert(tk.END, message + '\n')
     message_box.config(state=tk.DISABLED)
 
+# Function to connect to the server
 def connect():
-
     # try except block
     try:
-
         # Connect to the server
         client.connect((HOST, PORT))
         print("Successfully connected to server")
@@ -62,6 +71,7 @@ def connect():
     username_textbox.config(state=tk.DISABLED)
     username_button.config(state=tk.DISABLED)
 
+# Function to send message
 def send_message():
     message = message_textbox.get()
     if message != '':
@@ -70,19 +80,23 @@ def send_message():
     else:
         messagebox.showerror("Empty message", "Message cannot be empty")
 
+# Function to clear default message in message textbox
 def clear_default_message(event):
     if message_textbox.get() == "Type Here...":
         message_textbox.delete(0, tk.END)
         message_textbox.config(fg="black")  # Change text color when default message is cleared
 
+# Function to restore default message in message textbox
 def restore_default_message(event):
     if message_textbox.get() == "":
         message_textbox.insert(0, "Type Here...")
         message_textbox.config(fg="gray")  # Change text color for default message
 
+# Function to change text color in message textbox
 def change_color(color):
     message_textbox.config(fg=color)
 
+# Function to show color options
 def show_color_options():
     # Create a Toplevel window for color options
     color_options_window = tk.Toplevel(root)
@@ -93,74 +107,89 @@ def show_color_options():
 
     # Create buttons for each color option
     for color in colors:
-        color_button = tk.Button(color_options_window, text=color.capitalize(), command=lambda c=color: change_color(c))
+        color_button = tk.Button(color_options_window, text=color.capitalize(), command=lambda c=color: change_color(c), bg=BUTTON_GRAY)
         color_button.pack()
 
+# Main Tkinter window
 root = tk.Tk()
-root.geometry("600x600")
 root.title("Messenger Client")
+root.geometry("600x600")
 root.resizable(False, False)
+root.configure(bg=DARK_GRAY)
 
+# Create and configure the main frame
+main_frame = tk.Frame(root, bg=DARK_GRAY)
+main_frame.grid(row=0, column=0, sticky="nsew")
+
+# Configure grid weights
 root.grid_rowconfigure(0, weight=1)
-root.grid_rowconfigure(1, weight=4)
-root.grid_rowconfigure(2, weight=1)
+root.grid_columnconfigure(0, weight=1)
+main_frame.grid_rowconfigure(1, weight=1)
 
-top_frame = tk.Frame(root, width=600, height=100, bg=DARK_GREEN)
-top_frame.grid(row=0, column=0, sticky=tk.NSEW)
+# Top Frame
+top_frame = tk.Frame(main_frame, bg=MEDIUM_GRAY)
+top_frame.grid(row=0, column=0, sticky="ew")
 
-middle_frame = tk.Frame(root, width=600, height=400, bg=MEDIUM_ORANGE)
-middle_frame.grid(row=1, column=0, sticky=tk.NSEW)
+# Middle Frame
+middle_frame = tk.Frame(main_frame, bg=MEDIUM_GRAY)
+middle_frame.grid(row=1, column=0, sticky="nsew")
 
-bottom_frame = tk.Frame(root, width=600, height=100, bg=DARK_GREEN)
-bottom_frame.grid(row=2, column=0, sticky=tk.NSEW)
+# Bottom Frame
+bottom_frame = tk.Frame(main_frame, bg=MEDIUM_GRAY)
+bottom_frame.grid(row=2, column=0, sticky="ew")
 
-username_label = tk.Label(top_frame, text="Enter name:", font=FONT, bg=DARK_GREEN, fg=WHITE)
-username_label.pack(side=tk.LEFT, padx=10)
+# Username Label
+username_label = tk.Label(top_frame, text="Enter name:", font=FONT, bg=MEDIUM_GRAY, fg=WHITE)
+username_label.grid(row=0, column=0, padx=10)
 
-username_textbox = tk.Entry(top_frame, font=FONT, bg=MEDIUM_ORANGE, fg=WHITE, width=23)
-username_textbox.pack(side=tk.LEFT)
+# Username Textbox
+username_textbox = tk.Entry(top_frame, font=FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
+username_textbox.grid(row=0, column=1)
 
-username_button = tk.Button(top_frame, text="Connect", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=connect)
-username_button.pack(side=tk.LEFT, padx=15)
+# Connect Button
+username_button = tk.Button(top_frame, text="Connect", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=connect)
+username_button.grid(row=0, column=2, padx=15)
 
-message_textbox = tk.Entry(bottom_frame, font=FONT, bg=MEDIUM_ORANGE, fg=WHITE, width=30)
+# Message Textbox
+message_textbox = tk.Entry(bottom_frame, font=FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
 message_textbox.insert(0, "Type Here...")
 message_textbox.bind("<FocusIn>", clear_default_message)
 message_textbox.bind("<FocusOut>", restore_default_message)
-message_textbox.pack(side=tk.LEFT, padx=10)
+message_textbox.grid(row=0, column=0, padx=10)
 
-emotes_frame = tk.Button(bottom_frame, text="😊", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=show_emoticons)
-emotes_frame.pack(side=tk.LEFT, padx=10)
+# Emoticons Button
+emotes_frame = tk.Button(bottom_frame, text="😊", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=show_emoticons)
+emotes_frame.grid(row=0, column=1, padx=(10, 0))
 
-color_frame = tk.Button(bottom_frame, text="Color", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=show_color_options)
-color_frame.pack(side=tk.LEFT)
+# Color Button
+color_frame = tk.Button(bottom_frame, text="Color", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=show_color_options)
+color_frame.grid(row=0, column=2, padx=10)
 
-message_button = tk.Button(bottom_frame, text="Send", font=BUTTON_FONT, bg=OCEAN_BLUE, fg=WHITE, command=send_message)
-message_button.pack(side=tk.LEFT, padx=10)
+# Send Button
+message_button = tk.Button(bottom_frame, text="Send", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=send_message)
+message_button.grid(row=0, column=3, padx=(0, 10))
 
-message_box = scrolledtext.ScrolledText(middle_frame, font=SMALL_FONT, bg=MEDIUM_ORANGE, fg=WHITE, width=67, height=26.5)
+# Message Box
+message_box = scrolledtext.ScrolledText(middle_frame, font=SMALL_FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
 message_box.config(state=tk.DISABLED)
-message_box.pack(side=tk.TOP)
+message_box.grid(row=0, column=0)
 
-
+# Function to listen for messages from the server
 def listen_for_messages_from_server(client):
-
     while 1:
-
         message = client.recv(2048).decode('utf-8')
         if message != '':
             username = message.split("~")[0]
             content = message.split('~')[1]
 
             add_message(f"[{username}] {content}")
-            
         else:
-            messagebox.showerror("Error", "Message recevied from client is empty")
+            messagebox.showerror("Error", "Message received from client is empty")
 
-# main function
+# Main function
 def main():
-
     root.mainloop()
-    
+
+# Entry point of the program
 if __name__ == '__main__':
     main()
