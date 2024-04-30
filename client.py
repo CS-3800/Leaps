@@ -2,6 +2,7 @@ import socket
 import threading
 import tkinter as tk
 import time
+import re
 from tkinter import scrolledtext
 from tkinter import messagebox
 
@@ -44,11 +45,38 @@ def show_emoticons():
         button = tk.Button(emoticons_window, text=emoticon, font=("Open Sans", 12), command=lambda e=emoticon: add_to_message(e), bg=BUTTON_GRAY)
         button.pack()
 
-# Function to add message to message box
+# Regular expression pattern to match URLs
+URL_PATTERN = r'(https?://\S+)'
+
 def add_message(message):
     message_box.config(state=tk.NORMAL)
-    message_box.insert(tk.END, message + '\n')
+    
+    # Search for URLs in the message
+    matches = re.finditer(URL_PATTERN, message)
+    last_end = 0
+    
+    for match in matches:
+        start, end = match.span()
+
+        message_box.insert(tk.END, message[last_end:start])
+        
+        # Add clickable link
+        url = message[start:end]
+        message_box.insert(tk.END, url, ('link', url))
+        message_box.tag_bind('link', '<Button-1>', lambda event, u=url: open_url(u))
+        
+        # make linke blue and underlined
+        message_box.tag_config('link', foreground='blue', underline=True)
+        
+        last_end = end
+    
+    message_box.insert(tk.END, message[last_end:] + '\n', 'normal')
     message_box.config(state=tk.DISABLED)
+
+# Function to open the URL when clicked
+def open_url(url):
+    import webbrowser
+    webbrowser.open(url)
 
 # Function to connect to the server
 def connect():
