@@ -1,6 +1,7 @@
 import socket
 import threading
 import tkinter as tk
+import time
 from tkinter import scrolledtext
 from tkinter import messagebox
 
@@ -75,10 +76,13 @@ def connect():
 def send_message():
     message = message_textbox.get()
     if message != '':
-        client.sendall(message.encode())
+        timestamp = time.strftime('%Y-%m-%d %I:%M:%S %p')  # timestamp 
+        message_with_timestamp = f"{message} \n [{timestamp}]"  # timestamp and message
+        client.sendall(message_with_timestamp.encode())
         message_textbox.delete(0, len(message))
     else:
         messagebox.showerror("Empty message", "Message cannot be empty")
+
 
 # Function to clear default message in message textbox
 def clear_default_message(event):
@@ -140,15 +144,15 @@ bottom_frame.grid(row=2, column=0, sticky="ew")
 
 # Username Label
 username_label = tk.Label(top_frame, text="Enter name:", font=FONT, bg=MEDIUM_GRAY, fg=WHITE)
-username_label.grid(row=0, column=0, padx=10)
+username_label.grid(row=0, column=1, padx=10)
 
 # Username Textbox
 username_textbox = tk.Entry(top_frame, font=FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
-username_textbox.grid(row=0, column=1)
+username_textbox.grid(row=0, column=2)
 
 # Connect Button
 username_button = tk.Button(top_frame, text="Connect", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=connect)
-username_button.grid(row=0, column=2, padx=15)
+username_button.grid(row=0, column=3, padx=15)
 
 # Message Textbox
 message_textbox = tk.Entry(bottom_frame, font=FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
