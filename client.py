@@ -145,9 +145,17 @@ def show_color_options():
 # Main Tkinter window
 root = tk.Tk()
 root.title("Messenger Client")
-root.geometry("600x600")
+root.geometry("650x600")
 root.resizable(False, False)
 root.configure(bg=DARK_GRAY)
+
+#image path
+image_path = "tran.png"
+image = tk.PhotoImage(file=image_path)
+
+#resize image
+resized_image = image.subsample(3, 4)
+
 
 # Create and configure the main frame
 main_frame = tk.Frame(root, bg=DARK_GRAY)
@@ -169,6 +177,10 @@ middle_frame.grid(row=1, column=0, sticky="nsew")
 # Bottom Frame
 bottom_frame = tk.Frame(main_frame, bg=MEDIUM_GRAY)
 bottom_frame.grid(row=2, column=0, sticky="ew")
+
+#Frog Picture
+username_label = tk.Label(top_frame, image = resized_image, bg = MEDIUM_GRAY)
+username_label.grid(row=0, column=0, padx=5)
 
 # Username Label
 username_label = tk.Label(top_frame, text="Enter name:", font=FONT, bg=MEDIUM_GRAY, fg=WHITE)
