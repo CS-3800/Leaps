@@ -7,8 +7,8 @@ import base64
 from tkinter import scrolledtext
 from tkinter import messagebox
 from PIL import Image, ImageTk
-# from Crypto.Cipher import AES
-# from Crypto.Util.Padding import pad
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 
 # Server host and port
 HOST = '127.0.0.1'
@@ -82,12 +82,15 @@ def add_message(message):
     message_box.config(state=tk.NORMAL)
     
     #Load profile picture for frog
-    img = Image.open(image_path)
-    img = img.resize((50, 50), Image.ANTIALIAS)
-    photo_img = ImageTk.PhotoImage(img)
+    #image path
+    image_path = "default_frog.png"
+    image = tk.PhotoImage(file=image_path)
+
+    #resize image
+    resized_image = image.subsample(3, 4)
 
     # Insert the image to the left side of the text
-    message_box.image_create(tk.END, image=photo_img)
+    message_box.image_create(tk.END, image=resized_image)
 
 
     # Search for URLs in the message
