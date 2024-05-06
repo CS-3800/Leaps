@@ -6,8 +6,8 @@ import re
 import base64
 from tkinter import scrolledtext
 from tkinter import messagebox
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad
+# from Crypto.Cipher import AES
+# from Crypto.Util.Padding import pad
 
 # Server host and port
 HOST = '127.0.0.1'
@@ -30,6 +30,21 @@ BUTTON_BLUE = '#3E92CC'    # Blue
 FONT = ("Open Sans", 17)
 BUTTON_FONT = ("Open Sans", 15)
 SMALL_FONT = ("Open Sans", 13)
+
+# Main Tkinter window
+root = tk.Tk()
+root.title("Messenger Client")
+root.geometry("650x600")
+root.resizable(False, False)
+root.configure(bg=DARK_GRAY)
+
+
+#image path
+image_path = "tran.png"
+image = tk.PhotoImage(file=image_path)
+
+#resize image
+resized_image = image.subsample(3, 4)
 
 # Socket initialization
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -156,19 +171,6 @@ def show_color_options():
         color_button = tk.Button(color_options_window, text=color.capitalize(), command=lambda c=color: change_color(c), bg=BUTTON_GRAY)
         color_button.pack()
 
-# Main Tkinter window
-root = tk.Tk()
-root.title("Messenger Client")
-root.geometry("650x600")
-root.resizable(False, False)
-root.configure(bg=DARK_GRAY)
-
-#image path
-image_path = "tran.png"
-image = tk.PhotoImage(file=image_path)
-
-#resize image
-resized_image = image.subsample(3, 4)
 
 
 # Create and configure the main frame
