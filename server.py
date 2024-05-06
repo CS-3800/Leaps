@@ -1,26 +1,40 @@
 # Import required modules
 import socket
 import threading
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import unpad
+import base64
 
 # Host and port number
 HOST = '127.0.0.1'
 PORT = 1738
-LISTENER_LIMIT = 5
+LISTENER_LIMIT = 10
 active_clients = [] # List of all currently connected users
+
+# Encryption key 
+KEY = b'my_secret_key_12'
+
+# AES decryption function
+def decrypt_message(encrypted_message):
+    iv = base64.b64decode(encrypted_message[:24])
+    ct = base64.b64decode(encrypted_message[24:])
+    cipher = AES.new(KEY, AES.MODE_CBC, iv)
+    decrypted_message = unpad(cipher.decrypt(ct), AES.block_size).decode('utf-8')
+    return decrypted_message
 
 # Function to listen for upcoming messages from a client
 def listen_for_messages(client, username):
 
     while 1:
 
-        message = client.recv(2048).decode('utf-8')
-        if message != '':
-            
+        encrypted_message = client.recv(2048).decode('utf-8')
+        if encrypted_message != '':
+            message = decrypt_message(encrypted_message)
             final_msg = username + '~' + message
             send_messages_to_all(final_msg)
 
         else:
-            print(f"The message send from client {username} is empty")
+            print(f"The message sent from client {username} is empty")
 
 
 # Function to send message to a single client

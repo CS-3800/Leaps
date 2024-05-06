@@ -3,12 +3,18 @@ import threading
 import tkinter as tk
 import time
 import re
+import base64
 from tkinter import scrolledtext
 from tkinter import messagebox
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 
 # Server host and port
 HOST = '127.0.0.1'
 PORT = 1738
+
+# Encryption key (must be 16, 24, or 32 bytes long)
+KEY = b'my_secret_key_12'
 
 # Color constants
 DARK_GRAY = '#333333'
@@ -27,6 +33,14 @@ SMALL_FONT = ("Open Sans", 13)
 
 # Socket initialization
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# AES encryption function
+def encrypt_message(message):
+    cipher = AES.new(KEY, AES.MODE_CBC)
+    ct_bytes = cipher.encrypt(pad(message.encode(), AES.block_size))
+    iv = base64.b64encode(cipher.iv).decode('utf-8')
+    ct = base64.b64encode(ct_bytes).decode('utf-8')
+    return iv + ct
 
 # Function to show emoticons window
 def show_emoticons():
@@ -65,7 +79,7 @@ def add_message(message):
         message_box.insert(tk.END, url, ('link', url))
         message_box.tag_bind('link', '<Button-1>', lambda event, u=url: open_url(u))
         
-        # make linke blue and underlined
+        # make link blue and underlined
         message_box.tag_config('link', foreground='blue', underline=True)
         
         last_end = end
@@ -105,8 +119,8 @@ def send_message():
     message = message_textbox.get()
     if message != '':
         timestamp = time.strftime('%Y-%m-%d %I:%M:%S %p')  # timestamp 
-        message_with_timestamp = f"{message} \n [{timestamp}]"  # timestamp and message
-        client.sendall(message_with_timestamp.encode())
+        encrypted_message = encrypt_message(f"{message} \n [{timestamp}]")  # encrypt message
+        client.sendall(encrypted_message.encode())
         message_textbox.delete(0, len(message))
     else:
         messagebox.showerror("Empty message", "Message cannot be empty")
