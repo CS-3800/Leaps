@@ -6,6 +6,7 @@ import re
 import base64
 from tkinter import scrolledtext
 from tkinter import messagebox
+from PIL import Image, ImageTk
 # from Crypto.Cipher import AES
 # from Crypto.Util.Padding import pad
 
@@ -80,6 +81,15 @@ URL_PATTERN = r'(https?://\S+)'
 def add_message(message):
     message_box.config(state=tk.NORMAL)
     
+    #Load profile picture for frog
+    img = Image.open(image_path)
+    img = img.resize((50, 50), Image.ANTIALIAS)
+    photo_img = ImageTk.PhotoImage(img)
+
+    # Insert the image to the left side of the text
+    message_box.image_create(tk.END, image=photo_img)
+
+
     # Search for URLs in the message
     matches = re.finditer(URL_PATTERN, message)
     last_end = 0
@@ -99,6 +109,7 @@ def add_message(message):
         
         last_end = end
     
+    #insert text mssage
     message_box.insert(tk.END, message[last_end:] + '\n', 'normal')
     message_box.config(state=tk.DISABLED)
 
