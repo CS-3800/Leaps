@@ -78,19 +78,20 @@ def show_emoticons():
 # Regular expression pattern to match URLs
 URL_PATTERN = r'(https?://\S+)'
 
+image_test = None
 def add_message(message):
+    global image_test
     message_box.config(state=tk.NORMAL)
     
     #Load profile picture for frog
     #image path
-    image_path = "default_frog.png"
-    image = tk.PhotoImage(file=image_path)
-
+    image_path_test = "default_frog.png"
+    image_test = tk.PhotoImage(file=image_path_test)
     #resize image
-    resized_image = image.subsample(3, 4)
+    resized_image_test = image_test.subsample(3, 4)
 
     # Insert the image to the left side of the text
-    message_box.image_create(tk.END, image=resized_image)
+    message_box.image_create(tk.END, image=image_test)
 
 
     # Search for URLs in the message
@@ -113,7 +114,9 @@ def add_message(message):
         last_end = end
     
     #insert text mssage
+
     message_box.insert(tk.END, message[last_end:] + '\n', 'normal')
+    message_box.see(tk.END)
     message_box.config(state=tk.DISABLED)
 
 # Function to open the URL when clicked
