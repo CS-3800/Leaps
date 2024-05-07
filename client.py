@@ -234,6 +234,9 @@ message_textbox.bind("<FocusIn>", clear_default_message)
 message_textbox.bind("<FocusOut>", restore_default_message)
 message_textbox.grid(row=0, column=0, padx=10)
 
+# Keybind the "send" button to the "enter" key on the keyboard
+message_textbox.bind("<Return>", lambda event: send_message())
+
 # Emoticons Button
 emotes_frame = tk.Button(bottom_frame, text="😊", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=show_emoticons)
 emotes_frame.grid(row=0, column=1, padx=(10, 0))
