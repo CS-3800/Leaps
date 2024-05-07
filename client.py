@@ -83,7 +83,7 @@ def frog_emoticons():
     emoticons_window.title("Frog Emoticons")
 
     # List of frog emoticon paths
-    frog_emoticons_paths = ["default_frog.png", "default_frog.png", "default_frog.png"]
+    frog_emoticons_paths = ["dfrog.png", "dfrog.png", "dfrog.png"]
     
     def add_frog_image_to_message(image_path):
         # Load frog image
@@ -110,7 +110,7 @@ def add_message(message):
     
     #Load profile picture for frog
     #image path
-    image_path_test = "default_frog.png"
+    image_path_test = "dfrog.png"
     image_test = tk.PhotoImage(file=image_path_test)
     #resize image
     resized_image_test = image_test.subsample(3, 4)
