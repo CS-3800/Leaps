@@ -75,6 +75,31 @@ def show_emoticons():
         button = tk.Button(emoticons_window, text=emoticon, font=("Open Sans", 12), command=lambda e=emoticon: add_to_message(e), bg=BUTTON_GRAY)
         button.pack()
 
+# Function to show frog pfp
+def frog_emoticons():
+    # Create a Toplevel window
+    emoticons_window = tk.Toplevel(root)
+    emoticons_window.geometry("200x400")
+    emoticons_window.title("Frog Emoticons")
+
+    # List of frog emoticon paths
+    frog_emoticons_paths = ["default_frog.png", "default_frog.png", "default_frog.png"]
+    
+    def add_frog_image_to_message(image_path):
+        # Load frog image
+        frog_image = tk.PhotoImage(file=image_path)
+        message_textbox.image_create(tk.END, image=frog_image)
+        message_textbox.insert(tk.END, "\n") 
+
+    # Display the list of frog emoticons
+    for path in frog_emoticons_paths:
+        # Load frog image
+        frog_image = tk.PhotoImage(file=path)
+        # Create button with image
+        button = tk.Button(emoticons_window, image=frog_image, command=lambda p=path: add_frog_image_to_message(p), bg=BUTTON_GRAY)
+        button.image = frog_image
+        button.pack()
+
 # Regular expression pattern to match URLs
 URL_PATTERN = r'(https?://\S+)'
 
@@ -240,6 +265,10 @@ message_textbox.bind("<Return>", lambda event: send_message())
 # Emoticons Button
 emotes_frame = tk.Button(bottom_frame, text="😊", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=show_emoticons)
 emotes_frame.grid(row=0, column=1, padx=(10, 0))
+
+# Emoticons Button
+frog_frame = tk.Button(bottom_frame, text="🐸", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=frog_emoticons)
+frog_frame.grid(row=0, column=4, padx=(10, 0))
 
 # Color Button
 color_frame = tk.Button(bottom_frame, text="Color", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=show_color_options)
