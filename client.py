@@ -18,10 +18,11 @@ PORT = 1738
 KEY = b'my_secret_key_12'
 
 # Color constants
-DARK_GRAY = '#333333'
-MEDIUM_GRAY = '#666666'
+DARK_GRAY = '#CFCFCF'
+MEDIUM_GRAY = '#CFCFCF'
 LIGHT_GRAY = '#999999'
 WHITE = '#FFFFFF'
+BLACK = '#000000'
 BUTTON_GRAY = '#555555'  # Dark gray
 BUTTON_GREEN = '#5CB85C'  # Green
 BUTTON_ORANGE = '#F0AD4E'  # Orange
@@ -241,19 +242,19 @@ username_label = tk.Label(top_frame, image = resized_image, bg = MEDIUM_GRAY)
 username_label.grid(row=0, column=0, padx=5)
 
 # Username Label
-username_label = tk.Label(top_frame, text="Enter name:", font=FONT, bg=MEDIUM_GRAY, fg=WHITE)
+username_label = tk.Label(top_frame, text="Enter name:", font=FONT, bg=MEDIUM_GRAY, fg=BLACK)
 username_label.grid(row=0, column=1, padx=10)
 
 # Username Textbox
-username_textbox = tk.Entry(top_frame, font=FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
+username_textbox = tk.Entry(top_frame, font=FONT, bg=WHITE, fg=BLACK)
 username_textbox.grid(row=0, column=2)
 
 # Connect Button
-username_button = tk.Button(top_frame, text="Connect", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=connect)
+username_button = tk.Button(top_frame, text="Connect", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=BLACK, command=connect)
 username_button.grid(row=0, column=3, padx=15)
 
 # Message Textbox
-message_textbox = tk.Entry(bottom_frame, font=FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
+message_textbox = tk.Entry(bottom_frame, font=FONT, bg=WHITE, fg=DARK_GRAY)
 message_textbox.insert(0, "Type Here...")
 message_textbox.bind("<FocusIn>", clear_default_message)
 message_textbox.bind("<FocusOut>", restore_default_message)
@@ -271,15 +272,15 @@ frog_frame = tk.Button(bottom_frame, text="🐸", font=BUTTON_FONT, bg=BUTTON_GR
 frog_frame.grid(row=0, column=4, padx=(10, 0))
 
 # Color Button
-color_frame = tk.Button(bottom_frame, text="Color", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=show_color_options)
+color_frame = tk.Button(bottom_frame, text="Color", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=BLACK, command=show_color_options)
 color_frame.grid(row=0, column=2, padx=10)
 
 # Send Button
-message_button = tk.Button(bottom_frame, text="Send", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=WHITE, command=send_message)
+message_button = tk.Button(bottom_frame, text="Send", font=BUTTON_FONT, bg=BUTTON_GRAY, fg=BLACK, command=send_message)
 message_button.grid(row=0, column=3, padx=(0, 10))
 
 # Message Box
-message_box = scrolledtext.ScrolledText(middle_frame, font=SMALL_FONT, bg=LIGHT_GRAY, fg=DARK_GRAY)
+message_box = scrolledtext.ScrolledText(middle_frame, font=SMALL_FONT, bg=WHITE, fg=BLACK)
 message_box.config(state=tk.DISABLED)
 message_box.grid(row=0, column=0)
 
