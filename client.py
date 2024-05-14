@@ -44,6 +44,7 @@ root.configure(bg=DARK_GRAY)
 #image path
 image_path = "tran.png"
 dfrog = "dfrog.png"
+empty = ""
 image = tk.PhotoImage(file=image_path)
 
 #resize image
@@ -158,7 +159,7 @@ def connect():
         # Connect to the server
         client.connect((HOST, PORT))
         print("Successfully connected to server")
-        add_message("[SERVER] Successfully connected to the server", dfrog)
+        add_message("[SERVER] Successfully connected to the server", empty)
     except:
         messagebox.showerror("Unable to connect to server", f"Unable to connect to server {HOST} {PORT}")
 
