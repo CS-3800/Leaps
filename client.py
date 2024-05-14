@@ -105,16 +105,14 @@ def frog_emoticons():
 URL_PATTERN = r'(https?://\S+)'
 
 image_test = None
-def add_message(message):
-    global image_test
+def add_message(message, image_path):
+    #global image_test
     message_box.config(state=tk.NORMAL)
     
     #Load profile picture for frog
     #image path
     image_path_test = "dfrog.png"
-    image_test = tk.PhotoImage(file=image_path_test)
-    #resize image
-    resized_image_test = image_test.subsample(3, 4)
+    image_test = tk.PhotoImage(file=image_path)
 
     # Insert the image to the left side of the text
     message_box.image_create(tk.END, image=image_test)
@@ -144,6 +142,9 @@ def add_message(message):
     message_box.insert(tk.END, message[last_end:] + '\n', 'normal')
     message_box.see(tk.END)
     message_box.config(state=tk.DISABLED)
+    if not hasattr(message_box, 'image_dict'):
+        message_box.image_dict = {}
+    message_box.image_dict[message] = image_test
 
 # Function to open the URL when clicked
 def open_url(url):
@@ -291,8 +292,8 @@ def listen_for_messages_from_server(client):
         if message != '':
             username = message.split("~")[0]
             content = message.split('~')[1]
-
-            add_message(f"[{username}] {content}")
+            image_path = 'dfrog.png'
+            add_message(f"[{username}] {content}", image_path)
         else:
             messagebox.showerror("Error", "Message received from client is empty")
 
