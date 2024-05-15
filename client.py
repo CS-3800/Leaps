@@ -86,13 +86,15 @@ def frog_emoticons():
     emoticons_window.title("Frog Emoticons")
 
     # List of frog emoticon paths
-    frog_emoticons_paths = ["dfrog.png", "dfrog.png", "dfrog.png"]
+    frog_emoticons_paths = ["greenfrog.png", "yellowfrog.png", "purplefrog.png", "pinkfrog.png", "cyanfrog.png"]
     
     def add_frog_image_to_message(image_path):
+        global dfrog
         # Load frog image
-        frog_image = tk.PhotoImage(file=image_path)
-        message_textbox.image_create(tk.END, image=frog_image)
-        message_textbox.insert(tk.END, "\n") 
+        # frog_image = tk.PhotoImage(file=image_path)
+        # message_textbox.image_create(tk.END, image=frog_image)
+        # message_textbox.insert(tk.END, "\n")
+        dfrog = image_path
 
     # Display the list of frog emoticons
     for path in frog_emoticons_paths:
@@ -123,7 +125,6 @@ def add_message(message, image_path):
     # Search for URLs in the message
     matches = re.finditer(URL_PATTERN, message)
     last_end = 0
-    
     for match in matches:
         start, end = match.span()
 
