@@ -63,6 +63,7 @@ def encrypt_message(message):
 
 # Function to show emoticons window
 def show_emoticons():
+    global text_color
     # Create a Toplevel window
     emoticons_window = tk.Toplevel(root)
     emoticons_window.geometry("200x400")
@@ -71,6 +72,9 @@ def show_emoticons():
     # Create a list of emoticons
     emoticons = ["😊", "😂", "😍", "😎", "😜", "😇", "😘", "🥳", "🤩"]
     def add_to_message(emote):
+        if message_textbox.get() == "Type Here...":
+            message_textbox.delete(0, tk.END)
+        message_textbox.config(fg=text_color)
         message_textbox.insert(tk.END, emote)
     
     # Display the list of emoticons
@@ -183,6 +187,7 @@ def send_message():
         timestamp = time.strftime('%Y-%m-%d %I:%M:%S %p')  # timestamp 
         encrypted_message = encrypt_message(f"{message} \n [{timestamp}]")  # encrypt message
         client.sendall(encrypted_message.encode())
+        message_textbox.delete(0, len(message))
         message_textbox.delete(0, len(message))
     else:
         messagebox.showerror("Empty message", "Message cannot be empty")
