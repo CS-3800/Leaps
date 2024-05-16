@@ -84,6 +84,7 @@ def show_emoticons():
 
 # Function to show frog pfp
 def frog_emoticons():
+    global text_color
     # Create a Toplevel window
     emoticons_window = tk.Toplevel(root)
     emoticons_window.geometry("200x400")
@@ -108,6 +109,7 @@ def frog_emoticons():
         button = tk.Button(emoticons_window, image=frog_image, command=lambda p=path: add_frog_image_to_message(p), bg=BUTTON_GRAY)
         button.image = frog_image
         button.pack()
+    message_textbox.config(fg=text_color)
 
 # Regular expression pattern to match URLs
 URL_PATTERN = r'(https?://\S+)'
@@ -195,15 +197,17 @@ def send_message():
 
 # Function to clear default message in message textbox
 def clear_default_message(event):
+    global text_color
     if message_textbox.get() == "Type Here...":
         message_textbox.delete(0, tk.END)
-        message_textbox.config(fg="black")  # Change text color when default message is cleared
+        message_textbox.config(fg=text_color)  # Change text color when default message is cleared
 
 # Function to restore default message in message textbox
 def restore_default_message(event):
+    global text_color
     if message_textbox.get() == "":
         message_textbox.insert(0, "Type Here...")
-        message_textbox.config(fg="gray")  # Change text color for default message
+        message_textbox.config(fg=text_color)  # Change text color for default message
 
 # Function to change text color in message textbox
 def change_color(color):
