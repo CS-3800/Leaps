@@ -40,7 +40,7 @@ root.geometry("650x600")
 root.resizable(False, False)
 root.configure(bg=DARK_GRAY)
 
-
+text_color = 'black'
 #image path
 image_path = "tran.png"
 dfrog = "dfrog.png"
@@ -143,6 +143,7 @@ def add_message(message, image_path):
     #insert text mssage
 
     message_box.insert(tk.END, message[last_end:] + '\n', 'normal')
+    message_box.tag_add('colored_text', f"1.0", tk.END)
     message_box.see(tk.END)
     message_box.config(state=tk.DISABLED)
     if not hasattr(message_box, 'image_dict'):
@@ -201,7 +202,10 @@ def restore_default_message(event):
 
 # Function to change text color in message textbox
 def change_color(color):
+    global text_color
+    text_color = color
     message_textbox.config(fg=color)
+    message_box.tag_configure('colored_text', foreground=text_color)
 
 # Function to show color options
 def show_color_options():
@@ -286,6 +290,7 @@ message_button.grid(row=0, column=3, padx=(0, 10))
 message_box = scrolledtext.ScrolledText(middle_frame, font=SMALL_FONT, bg=WHITE, fg=BLACK)
 message_box.config(state=tk.DISABLED)
 message_box.grid(row=0, column=0)
+message_box.tag_configure('colored_text', foreground=text_color)
 
 # Function to listen for messages from the server
 def listen_for_messages_from_server(client):
