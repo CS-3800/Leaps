@@ -43,7 +43,7 @@ root.configure(bg=DARK_GRAY)
 text_color = 'black'
 #image path
 image_path = "tran.png"
-dfrog = "dfrog.png"
+dfrog = "grayfrog.png"
 empty = ""
 image = tk.PhotoImage(file=image_path)
 
@@ -83,9 +83,9 @@ def frog_emoticons():
     # Create a Toplevel window
     emoticons_window = tk.Toplevel(root)
     emoticons_window.geometry("200x400")
-    emoticons_window.title("Frog Emoticons")
+    emoticons_window.title("Frog Profile Picture")
 
-    # List of frog emoticon paths
+    # List of frog pfp paths
     frog_emoticons_paths = ["greenfrog.png", "yellowfrog.png", "purplefrog.png", "pinkfrog.png", "cyanfrog.png"]
     
     def add_frog_image_to_message(image_path):
@@ -96,7 +96,7 @@ def frog_emoticons():
         # message_textbox.insert(tk.END, "\n")
         dfrog = image_path
 
-    # Display the list of frog emoticons
+    # Display the list of frog pfp
     for path in frog_emoticons_paths:
         # Load frog image
         frog_image = tk.PhotoImage(file=path)
